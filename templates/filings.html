@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ ticker }} - Latest SEC Filings</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+       font-family: calibri, sans-serif;
+       background-color: #f4f7fa;
+       margin: 0;
+       padding: 20px;
+       background: linear-gradient(to right, #ee8ada, #ffffff, #ffc98a);
+       user-select: none; /* Prevent text selection */
+       -webkit-user-select: none; /* Safari */
+       -moz-user-select: none; /* Firefox */
+       -ms-user-select: none; /* Internet Explorer/Edge */
+   }
+
+   /* Header Styling */
+   .header {
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       margin-left: 0px;
+       color: rgb(37, 16, 16);
+       padding: 5px 10px;
+       border-radius: 8px;
+       width: 100%;
+   }
+
+   .header h1 {
+       margin: 0;
+       font-size: 28px;
+       flex-grow: 1;
+       text-align: center;
+   }
+    
+   /* Back Button with Purple Gradient */
+   .back-btn {
+       background: #c14bbd;
+       border: none;
+       padding: 10px 15px;
+       font-size: 16px;
+       cursor: pointer;
+       border-radius: 5px;
+       transition: background 0.3s ease;
+       color: white;
+   }
+    
+   .back-btn:hover {
+       background: #982a95;
+   }
+    
+   /* Table Container with Purple Border */
+   .table-container {
+       margin-top: 20px;
+       background: white;
+       padding: 15px;
+       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+       border: 2px solid #d995e0; /* Purple border */
+   }
+   th:first-child, td:first-child {
+       width: 350px; /* Adjust this value as needed */
+       max-width: 500px;
+       white-space: nowrap;
+       overflow: hidden;
+       text-overflow: ellipsis;
+   }
+   /* Table with Dark Purple Gradient Border */
+   table {
+       width: 100%;
+       border-collapse: collapse;
+       background: white;
+       border: 3px solid transparent;
+       background-image: linear-gradient(white, white),
+                         linear-gradient(to right, #f4ca9a, #f6f5f2);/* Purple Gradient Border */
+       background-origin: border-box;
+       background-clip: content-box, border-box;
+       margin-top: -2px;
+   }
+    
+   /* Table Headers with Gradient */
+   th {
+       padding: 12px;
+       border-bottom: 1px solid #ddd;
+       text-align: left;
+       background: linear-gradient(to right, #f4ca9a, #f6f5f2);
+       color:rgb(56, 56, 56);
+       font-weight: bold;
+       position: relative;
+       cursor: pointer;
+       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+       white-space: nowrap; /* Keep headers in one line */
+       overflow: hidden;
+       text-overflow: ellipsis;
+   }
+    
+   /* Table Cells - Keep in One Line */
+   td {
+       padding: 12px;
+       border-bottom: 1px solid #ddd;
+       border: 1px solid #bc80d4; /* Grid border */
+       text-align: left;
+       background-color: white;
+       transition: background-color 0.3s ease;
+       white-space: nowrap;  /* Prevent wrapping */
+       overflow: hidden;      /* Hide overflow */
+       text-overflow: ellipsis; /* Show "..." for overflow */
+       max-width: 250px; /* Adjust as needed */
+   }
+    
+   /* Hover Effect */
+   tr:hover td {
+       background-color: #f7ebf5;
+   }
+    
+   /* Filter Inputs */
+   .filter-select, .filter-date {
+       border: 1px solid #ccc;
+       padding: 5px;
+       font-size: 14px;
+       border-radius: 5px;
+       width: 100%;
+       display: none;
+       margin-top: 5px;
+   }
+    
+   /* Filter Wrapper */
+   .filter-wrapper {
+       display: flex;
+       align-items: center;
+       justify-content: space-between;
+       gap: 5px;
+   }
+    
+   /* Dropdown Arrow */
+   .dropdown-arrow {
+       margin-left: 5px;
+       font-size: 12px;
+       color: white;
+       cursor: pointer;
+   }
+    
+   /* Parse Button with Purple Gradient */
+   .parse-btn {
+       background: #cb4db2;
+       color: white;
+       border: none;
+       padding: 8px 12px;
+       cursor: pointer;
+       border-radius: 5px;
+       transition: 0.3s;
+   }
+    
+   .parse-btn:hover {
+       background: #cb4db2;
+   }
+   /* Modal Styling */
+   .modal {
+       display: none;
+       position: fixed;
+       z-index: 1000;
+       left: 0;
+       top: 0;
+       width: 100%;
+       height: 100%;
+       background-color: rgba(0, 0, 0, 0.5);
+       animation: fadeIn 0.3s ease-in-out;
+   }
+    
+   .modal-content {
+       background: linear-gradient(135deg, #ffffff 0%, #f3e7f3 100%);
+       margin: 15% auto;
+       padding: 20px;
+       border: 2px solid #cb4db2;
+       border-radius: 10px;
+       width: 400px;
+       position: relative;
+       text-align: center;
+       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+       animation: slideIn 0.3s ease-in-out;
+   }
+    
+   .modal h2 {
+       color: #cb4db2;
+       margin-bottom: 15px;
+       font-size: 24px;
+   }
+    
+   .modal p {
+       color: #666;
+       margin-bottom: 20px;
+       font-size: 16px;
+       line-height: 1.4;
+   }
+    
+   #closeModalBtn {
+       background: linear-gradient(135deg, #cb4db2 0%, #9c2c92 100%);
+       color: white;
+       padding: 10px 25px;
+       border: none;
+       border-radius: 5px;
+       font-size: 16px;
+       cursor: pointer;
+       transition: transform 0.2s;
+   }
+    
+   #closeModalBtn:hover {
+       transform: scale(1.05);
+   }
+    
+   .close-btn {
+       position: absolute;
+       right: 15px;
+       top: 10px;
+       font-size: 24px;
+       color: #cb4db2;
+       cursor: pointer;
+       transition: color 0.2s;
+   }
+    
+   .close-btn:hover {
+       color: #9c2c92;
+   }
+    
+   @keyframes fadeIn {
+       from { opacity: 0; }
+       to { opacity: 1; }
+   }
+    
+   @keyframes slideIn {
+       from {
+           transform: translateY(-20px);
+           opacity: 0;
+       }
+       to {
+           transform: translateY(0);
+           opacity: 1;
+       }
+   }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Latest 40 Filings for {{ ticker }}</h1>
+        <button class="back-btn" onclick="window.location.href='/'">Back to Dashboard</button>
+    </div>
+
+    <div class="table-container">
+        {% if error_message %}
+            <p style="color: red;">{{ error_message }}</p>
+        {% else %}
+            <table id="filingsTable">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th id="filingTypeHeader">
+                            <div class="filter-wrapper">
+                                Filing Type 
+                                <span class="dropdown-arrow">▼</span>
+                            </div>
+                            <select id="filingTypeFilter" class="filter-select">
+                                <option value="">All</option>
+                                {% for option in ['8-K', '425', '10-Q', '10-K', '10-K/A', 'DEF 14A', 'DEFA14A', 'DFAN14A', 'DEFM14A', 'DEFM14C', 'PREM14A', 'PRER14A', 'PRER14C', 'SC14D9/A', 'SC14D9C', 'SC14D9', 'SC 13G', 'SC 13D', 'SC 13D/A', 'SC 13G/A', 'SC 13E3', 'SC 13E3/A', 'SC TO-T', 'SC TO-T/A', 'SC TO-C', '3', '3/A', '4', '144', 'PX14A6G'] %}
+                                    <option value="{{ option }}">{{ option }}</option>
+                                {% endfor %}
+                            </select>
+                        </th>
+                        <th id="dateHeader">
+                            <div class="filter-wrapper">
+                                Date 
+                                <span class="dropdown-arrow">▼</span>
+                            </div>
+                            <input type="date" id="dateFilter" class="filter-date">
+                        </th>
+                        <th>Link</th>
+                        <th>Action</th> <!-- Parse Button Column -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for filing in filings %}
+                    <tr>
+                        <td>{{ filing.title }}</td>
+                        <td class="filing-type">{{ filing.filing_type }}</td>
+                        <td class="filing-date">{{ filing.updated }}</td>
+                        <td><a href="{{ filing.link }}" target="_blank">View Filing</a></td>
+                        <td><button class="parse-btn">Parse</button></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Parsing Started!</h2>
+            <h3>Document Parsing Has Been Started...You will receive a Mail Soon</h3>
+            <button id="closeModalBtn">Close</button>
+        </div>
+    </div>
+
+    <script>
+
+        dateFilter.addEventListener("change", function () {
+            const selectedDate = dateFilter.value;
+            if (!selectedDate) return; // Exit if no date is selected
+        
+            fetch(`/fetch_filings?ticker={{ ticker }}&date=${selectedDate}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.querySelector("#filingsTable tbody");
+                    tableBody.innerHTML = ""; // Clear existing records
+        
+                    if (!data.success || data.filings.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="5">No filings found from this date.</td></tr>';
+                        return;
+                    }
+        
+                    // Append data in the correct order (received in ascending order)
+                    data.filings.forEach(filing => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                        <td>${filing.title}</td>
+                        <td class="filing-type">${filing.filing_type}</td>
+                        <td class="filing-date">${filing.updated}</td>
+                        <td><a href="${filing.link}" target="_blank">View Filing</a></td>
+                        <td><button class="parse-btn">Parse</button></td>
+                                        `;
+                        tableBody.appendChild(row);
+                    });
+
+                    // Scroll to the top of the table smoothly
+                    document.getElementById("filingsTable").scrollIntoView({ behavior: "smooth", block: "start" });
+                })
+                .catch(error => console.error("Error fetching filtered filings:", error));
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const filingTypeHeader = document.getElementById("filingTypeHeader");
+            const filingTypeFilter = document.getElementById("filingTypeFilter");
+            const dateHeader = document.getElementById("dateHeader");
+            const dateFilter = document.getElementById("dateFilter");
+            const tableRows = document.querySelectorAll("#filingsTable tbody tr");
+
+            function filterTable() {
+                const selectedFilingType = filingTypeFilter.value;
+                const selectedDate = dateFilter.value;
+
+                tableRows.forEach(row => {
+                    const rowFilingType = row.querySelector(".filing-type").textContent.trim();
+                    const rowDate = row.children[2].textContent.trim();
+
+                    let showRow = true;
+
+                    if (selectedFilingType && rowFilingType !== selectedFilingType) {
+                        showRow = false;
+                    }
+
+                    if (selectedDate && !rowDate.startsWith(selectedDate)) {
+                        showRow = false;
+                    }
+
+                    row.style.display = showRow ? "" : "none";
+                });
+            }
+
+            filingTypeFilter.addEventListener("change", filterTable);
+            dateFilter.addEventListener("change", filterTable);
+
+            function toggleFilter(header, filterElement) {
+                if (filterElement.style.display === "none" || filterElement.style.display === "") {
+                    filterElement.style.display = "block";
+                } else {
+                    filterElement.style.display = "none";
+                }
+            }
+
+            filingTypeHeader.addEventListener("click", function (event) {
+                if (event.target.classList.contains("dropdown-arrow")) {
+                    toggleFilter(filingTypeHeader, filingTypeFilter);
+                }
+            });
+
+            dateHeader.addEventListener("click", function (event) {
+                if (event.target.classList.contains("dropdown-arrow")) {
+                    toggleFilter(dateHeader, dateFilter);
+                }
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const modal = document.getElementById("successModal");
+            const closeBtn = document.querySelector(".close-btn");
+            const closeModalBtn = document.getElementById("closeModalBtn");
+
+            document.querySelector("#filingsTable").addEventListener("click", function (event) {
+                if (event.target.classList.contains("parse-btn")) {
+                    const row = event.target.closest("tr");
+                    const rowData = {
+                        title: row.children[0].innerText.trim(),
+                        filing_type: row.children[1].innerText.trim(),
+                        updated: row.children[2].innerText.trim(),
+                        link: row.children[3].querySelector("a").href.trim()
+                    };
+
+                    event.target.disabled = true;
+                    event.target.textContent = "Parsing..."; // Show parsing status
+                    
+                    // Show modal immediately after clicking
+                    modal.style.display = "block";
+
+                    fetch("/parse_filing", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            rowdata: rowData,
+                            ticker: "{{ ticker }}"
+                        }),
+                    })
+                    .catch(error => {
+                        console.error("Parsing Error:", error);
+                        modal.style.display = "none"; // Hide modal if there's an error
+                    })
+                    .finally(() => {
+                        event.target.textContent = "Parse";
+                        event.target.disabled = false;
+                    });
+                }
+            });
+
+            // Close modal when clicking the close button
+            closeBtn.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            // Close modal when clicking the "Close" button
+            closeModalBtn.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            // Close modal when clicking outside of it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        });
+    </script>
+</body>
+</html>

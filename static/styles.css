@@ -1,0 +1,705 @@
+body {
+    font-family: 'Calibri', sans-serif;
+    background:  rgb(255, 255, 255); /* Updated gradient with more yellow */
+    margin: 0;
+    padding: 0;
+    color: #333;
+    font-weight: bold;
+    user-select: none; /* Prevent text selection */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+}
+.logo img {
+    height: 80px; /* Increased height of the logo */
+    max-height: 100%; /* Ensure it stays within the header */
+    width: auto; /* Maintain aspect ratio */
+    margin-right: 20px; /* Spacing to the right of the logo */
+    padding: 0; /* No extra padding for the logo */
+    object-fit: contain; /* Ensure it fits nicely within the height */
+}
+ 
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to right, #ee8ada, #ffffff, #ffc98a); /* Updated gradient colors for a professional look */
+    color: rgb(14, 8, 8);
+    padding: 10px 20px; /* Adjusted padding for better alignment */
+    border-bottom: none; /* Removed border */
+    height: auto; /* Changed from -60px to auto */
+    font-family: 'Calibri', sans-serif; /* Added Calibri font */
+    font-weight: bold;
+}
+ 
+.header-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-left: 160px;
+}
+ 
+h1 {
+    margin: 0 auto;
+    font-size: 2.1rem; /* Reduced font size for a more professional look */
+    font-weight: bold;
+    font-family: 'calibri', sans-serif; /* Changed font to Arial */
+    text-transform: uppercase; /* Make text uppercase */
+}
+
+.email-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem; /* Increased font size */
+    padding: 12px 16px; /* Increased padding for a bigger section */
+    color: #042427; /* Changed text color to dark for better contrast */
+    margin-left: auto;
+    position: relative;
+    min-width: 90px; /* Added minimum width */
+    border: none; /* Removed border */
+}
+
+.email-input {
+    border: none; /* Remove border */
+    border-radius: 0; /* Remove border radius */
+    padding: 8px; /* Optional: Adjust padding as needed */
+    font-size: 1rem; /* Increased font size for consistency */
+    color: #042427; /* Keep text color for better contrast */
+    background-color: transparent;  
+}
+
+/* .email-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff;
+    color: #333;
+    border: 1px solid #ddd;
+    
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    padding: 5px 10px;
+    width: max-content;
+}
+ 
+.email-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+ 
+.email-dropdown li {
+    padding: 5px 0;
+    cursor: pointer;
+}
+ 
+.email-dropdown li:hover {
+    background-color: #f0f0f0;
+} */
+
+.container {
+    width: 95%; /* Reduced width to create more right space */
+    margin: 30px auto 50px 10px; /* Keeps left margin the same */
+    padding: 20px;
+    background :linear-gradient(to bottom left, #e3c1df, #ffffff, #f2e0cb);
+    border-radius: 0px;
+    border: 2px solid #c4a0e2; /* Modern purple border */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+.watchlist-table {
+    margin-top: 2px; /* Adds space between the table and the container border */
+}
+
+.form-group-row {
+    display: flex;
+    gap: 15px; /* Reduced gap between form groups */
+    margin-bottom: 15px; /* Reduced margin-bottom */
+    border: 2px solid #c4a0e2; /* Modern purple border */
+}
+
+.form-group {
+    flex: 1;
+    padding: 10px; /* Reduced padding */
+    background-color: transparent; /* Alice blue for form fields */
+}
+ 
+label {
+    font-weight: bold;
+    display: block;
+    font-size: 1.2rem; /* Smaller label text */
+}
+ 
+input[type="text"], input[type="date"], select {
+    width: 70%;
+    padding: 8px; /* Reduced padding */
+    margin-top: 5px;
+    border-radius: 5px;
+    font-size: 0.3rem; /* Smaller font size */
+    box-sizing: border-box;
+}
+#ffffff
+select {
+    cursor: pointer;
+}
+
+button {
+    background:#cb4db2; /* Purple to blue gradient */
+    color: rgb(255, 255, 255);
+    padding: 12px 20px;
+    font-size: 1rem;
+    border: 2px solid #f9f7f9; /* Border for buttons */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+
+input[type="text"], input[type="date"], select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    
+
+    font-size: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+ 
+/* input[type="text"]:focus, input[type="date"]:focus, select:focus {
+    outline: none;
+    border-color: #2b2081; 
+    box-shadow: 0 4px 12px rgba(106, 17, 203, 0.3);
+} */
+ 
+ 
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    border-color: #ae66ac; /* Purple hover effect */
+}
+.filing-box {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 15px;
+    border: 3px solid #8b3d90; /* Deep sky blue border */
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+/* Row color change when tracking is successful */
+.tracked-row {
+    background-color: #c595cd !important; /* Light green background */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+ 
+.filing-box h3 {
+    color: #64226a; /* Dark blue */
+}
+ 
+.filing-box a {
+    color: #59155f; /* Purple links */
+}
+ 
+.filing-box a:hover {
+    color: #4f1854; /* Blue on hover */
+    text-decoration: underline;
+}
+ 
+.filing-box p {
+    margin: 5px 0;
+    font-size: 0.9rem; /* Smaller font size */
+}
+ 
+.alert {
+    padding: 12px;
+    color: rgb(136, 4, 4);
+    margin-top: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+ 
+@media (max-width: 768px) {
+    .container {
+        width: 85%; /* Adjusted for smaller screens */
+    }
+ 
+    h1 {
+        font-size: 1.8rem; /* Smaller header text */
+    }
+ 
+    .form-group-row {
+        flex-direction: column;
+    }
+}
+table {
+width: 100%;
+border-collapse: collapse;
+margin-top: 20px;
+font-family: calibri, sans-serif;
+overflow: hidden; /* Ensures rounded corners apply correctly */
+box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Subtle shadow for table */
+margin-top: -5px;
+}
+
+/* Table Header Style */
+th, td {
+padding: 15px;
+text-align: left;
+border-bottom: 1px solid #ddd; /* Subtle row separator */
+font-size: 1rem; /* Standard font size */
+}
+
+/* Header Row Style */
+th {
+background: linear-gradient(to right, #f4ca9a, #f6f5f2);
+color: rgb(56, 56, 56);
+font-weight: bold;
+text-transform: uppercase; /* Uppercase letters for header */ /* Darker purple for bottom border */
+}
+
+/* Body Rows Style */
+td {
+background-color: #f9f9f9; /* Light background for table cells */
+}
+
+/* Row Hover Effect */
+tbody tr:hover {
+background-color: #ffffff; /* Soft purple hover effect */
+transform: translateY(-3px); /* Slight hover lift effect */
+transition: all 0.2s ease; /* Smooth transition */
+}
+
+/* Zebra Striping (Alternating Row Colors) */
+tbody tr:nth-child(odd) {
+background-color: #fdfdfd; /* Light gray for odd rows */
+}
+
+tbody tr:nth-child(even) {
+background-color: #f9f9f9; /* Slightly darker gray for even rows */
+}
+
+/* Add subtle hover effect to even rows */
+tbody tr:nth-child(even):hover {
+background-color: #d3c9f9; /* Soft purple hover for even rows */
+}
+
+/* Table Pagination (if used) */
+.pagination {
+display: flex;
+justify-content: center;
+margin-top: 20px;
+}
+
+.pagination a {
+padding: 8px 16px;
+text-decoration: none;
+background-color: #632571; /* Purple background for pagination */
+color: white;
+border-radius: 8px;
+margin: 0 5px;
+transition: background-color 0.3s;
+}
+
+.pagination a:hover {
+background-color: #4b0072; /* Darker purple hover effect for pagination */
+}
+
+/* Active Page */
+.pagination a.active {
+background-color: #4b0072;
+font-weight: bold;
+}
+/* Alternating row colors for Watchlist table */
+.watchlist-table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9; /* Light gray for odd rows */
+}
+
+.watchlist-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2; /* Slightly darker gray for even rows */
+}
+
+/* Highlight on hover */
+.watchlist-table tbody tr:hover {
+    background-color: #ffffff; /* Light purple hover effect */
+}
+
+.watchlist-table th, .watchlist-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Subtle row separator */
+}
+
+.watchlist-table th {
+    background-color: #ad439b; /* Blue header */
+    color: rgb(56, 56, 56);
+}
+ 
+.watchlist-table td {
+    background-color: #f9f9f9;
+}
+ 
+.watchlist-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+ 
+.watchlist-table tbody tr:hover {
+    background-color: #ffffff; /* Light purple hover effect */
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+ 
+tr:hover {
+    background-color: #ffffff; /* Light purple hover effect */
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+.filing-link {
+    color: #812976;
+    text-decoration: none;
+}
+ 
+.filing-link:hover {
+    text-decoration: underline;
+}
+ 
+.card {
+    background-color: #ffffff;
+    padding: 15px; /* Reduced padding for card */
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #dcdcdc;
+}
+ 
+.card h2 {
+    color: #b275a0;
+    font-size: 1.5rem; /* Smaller card header */
+    margin-bottom: 10px;
+}
+ 
+.card p {
+    font-size: 0.9rem; /* Smaller text inside cards */
+    color: #333;
+}
+ 
+.card .card-button {
+    background-color: #e691ef;
+    color: white;
+    padding: 8px 15px; /* Reduced padding */
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9rem; /* Smaller button text */
+    text-align: center;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+ 
+.card .card-button:hover {
+    background-color: #cf8ce0;
+}
+.watchlist-button {
+    background-color: #cb4db2;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+ 
+.watchlist-button:hover {
+    background-color: #cb4db2;
+}
+#suggestions {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ccc;
+    max-height: 200px; /* Increased max height */
+    overflow-y: auto;
+    position: absolute;
+    z-index: 1000;
+    background: white;
+    width: 28%; /* Ensure it matches the input width */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: all 0.3s ease; /* Smooth transition */
+}
+ 
+/* Individual suggestion items */
+#suggestions li {
+    padding: 12px 15px; /* Increased padding for a more comfortable click */
+    cursor: pointer;
+    font-size: 1rem; /* Font size for better readability */
+    color: #333; /* Dark text for better contrast */
+    transition: background-color 0.2s ease, padding-left 0.2s ease; /* Smooth transition */
+}
+ 
+/* Hover effect for suggestions */
+#suggestions li:hover {
+    background-color: #f0f0f0; /* Light grey on hover */
+    padding-left: 20px; /* Slight shift to the left on hover for a modern effect */
+    color: #111011; /* Change text color on hover */
+}
+ 
+/* Active item when clicked */
+#suggestions li.selected {
+    background-color: #181718; /* Blue background when selected */
+    color: white; /* White text for contrast */
+    font-weight: bold; /* Make selected item bold */
+}
+ 
+/* Style for the input field when suggestions are shown */
+input[type="text"] {
+    padding-right: 30px; /* Make space for the dropdown */
+}
+ 
+/* Optional: Add smooth fade-in animation */
+#suggestions {
+    opacity: 0;
+    animation: fadeIn 0.3s forwards; /* Fade-in effect */
+}
+ 
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+ 
+/* For better responsiveness on mobile */
+@media (max-width: 768px) {
+    #suggestions {
+        max-height: 150px; /* Reduced height on smaller screens */
+        font-size: 0.9rem; /* Smaller font size */
+    }
+ 
+    #suggestions li {
+        padding: 10px 12px; /* Reduced padding for smaller screens */
+    }
+}
+.switch {
+position: relative;
+display: inline-block;
+width: 50px;
+height: 24px;
+margin: 0 15px 0 -5px;
+flex-shrink: 0;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+opacity: 0;
+width: 0;
+height: 0;
+}
+
+/* The slider */
+.slider {
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #ccc;
+transition: .3s;
+}
+
+.slider:before {
+position: absolute;
+content: "";
+height: 18px;
+width: 18px;
+left: 3px;
+bottom: 3px;
+background-color: white;
+transition: .3s;
+}
+
+input:checked + .slider {
+background-color: #bea2d1;
+}
+
+input:focus + .slider {
+box-shadow: 0 0 1px #bea2d1;
+}
+
+input:checked + .slider:before {
+transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+border-radius: 14px;
+}
+
+.slider.round:before {
+border-radius: 30%;
+}
+
+/* Date input styling */
+#date_picker {
+padding: 8px;
+border: 1px solid #ccc;
+border-radius: 4px;
+font-size: 14px;
+}
+
+#date_picker:disabled {
+background-color: #f5f5f5;
+cursor: not-allowed;
+}
+
+#date_picker::placeholder {
+color: #313030;
+}
+
+.date-container {
+display: flex;
+align-items: center;
+gap: 10px;
+margin: 10px 0;
+}
+
+.date-container label {
+margin-right: 5px;
+}
+
+.date-container {
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.toggle-label {
+font-size: 14px;
+color: #333;
+}
+
+.tracker-checkbox { /* Ensures it behaves like an inline element */
+margin-left: 10px; /* Adjust this value to move it further to the right */
+}
+
+.row-checkbox {
+width: 25px; /* Increase the width of the checkbox */
+height: 25px; /* Increase the height of the checkbox */
+margin-left: 80px; /* Optional: Adjust to further control the position */
+margin-top: 6px; /* You can adjust this value if needed to fine-tune the positioning */
+}
+.tracked-button {
+background-color: #28a745; /* Green */
+color: white;
+}
+.tracked-button {
+background-color: #28a745; /* Green for active tracking */
+color: white;
+cursor: pointer;
+}
+
+.tracked-row {
+background-color: #d4edda; /* Light green background for the row */
+}
+.loading-icon img {
+vertical-align: middle;
+}
+.modal {
+display: none;
+position: fixed;
+z-index: 1000;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+overflow: auto;
+background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+background-color: #ffffff;
+margin: 15% auto;
+padding: 20px;
+border-radius: 10px;
+width: 30%;
+text-align: center;
+box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.modal-buttons {
+margin-top: 20px;
+}
+
+.modal-button {
+padding: 10px 20px;
+margin: 0 10px;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+}
+
+.modal-button:hover {
+background-color: #ddd;
+}
+
+.modal-button#modal-ok {
+background-color: #4caf50;
+color: white;
+}
+
+.modal-button#modal-cancel {
+background-color: #f44336;
+color: white;
+}
+.highlight {
+background-color: yellow;
+animation: fadeOut 2s forwards;
+}
+
+@keyframes fadeOut {
+from {
+    background-color: yellow;
+}
+to {
+    background-color: transparent;
+}
+}
+
+.gif-container {
+position: absolute;
+top: 10px;
+right: 10px;
+z-index: 1000;
+}
+
+.new-listing-gif {
+width: 50px; /* Adjust the size of the GIF */
+height: 50px;
+border-radius: 50%;
+}
+.ticker-button {
+    background:#cb4db2;/* Purple to Deep Blue */
+    color: white;
+    border: none;
+    padding: 8px 14px; /* Slightly larger for better clickability */
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px; /* Slightly rounded corners for a modern look */
+    transition: all 0.3s ease;
+}
+
+/* Hover Effect */
+.ticker-button:hover {
+    background: #b11883 ; /* Pink to Violet */
+    transform: scale(1.05); /* Slight enlargement on hover */
+   
+}

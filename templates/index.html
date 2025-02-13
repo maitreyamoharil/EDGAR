@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../static/styles.css">
+    <title>EDGAR PROJECT</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/logo.gif') }}" alt="Logo" />
+        </div>
+        <div class="header-content">
+            <h1>SEC Filings Search</h1>
+            <div class="email-section">
+                <input type="text" id="emailInput" class="email-input" value= "{{CLIENT_NAME}}" readonly>
+            </div>
+        </div>
+    </header>
+
+    <div id="spinner" data-loading-url="{{ url_for('static', filename='images/db.gif') }}"></div>
+
+    <div id="custom-modal" class="modal">
+        <div class="modal-content">
+          <p id="modal-message"></p>
+          <div class="modal-buttons">
+            <button id="modal-ok" class="modal-button">OK</button>
+            <button id="modal-cancel" class="modal-button" style="display: none;">Cancel</button>
+          </div>
+        </div>
+    </div>
+      
+    <div class="container">
+        <form method="POST">
+            <div class="form-group-row">
+                <div class="form-group">
+                    <label for="ticker">Enter Ticker/Company:</label>
+                    <input type="text" id="ticker" name="ticker" value="{{ ticker or '' }}" placeholder="Enter Ticker/Company Name" autocomplete="off" required>
+                    <ul id="suggestions" class="dropdown-menu"></ul>
+                </div>
+
+                <div class="form-group">
+                    <label for="ticker">Enter Current/Custom Date:</label>
+                    <div class="date-container">
+                        <span class="toggle-label">Recent Filings</span>
+                        <label class="switch">
+                            <input type="checkbox" id="dateToggle" name="dateToggle" {{ 'checked' if date_toggle else '' }}>
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="toggle-label">Custom Date</span>
+                        <input type="date" id="date_picker" name="date_picker"
+                               {{ 'disabled' if not date_toggle else '' }}
+                               value="{{ selected_date }}" 
+                               placeholder="dd-mm-yyyy" />
+                        <span id="currentDate" style="display: none;"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="filing_type">Select Filing Type:</label>
+                    <select id="filing_type" name="filing_type">
+                        <option value="" disabled {{ 'selected' if not selected_filing_type else '' }}>Select Filing Type</option>
+                        {% for option in ['8-K', '425', '10-Q', '10-K', '10-K/A', 'DEF 14A', 'DEFA14A', 'DFAN14A', 'DEFM14A', 'DEFM14C', 'PREM14A', 'PRER14A', 'PRER14C', 'SC14D9/A', 'SC14D9C', 'SC14D9', 'SC 13G', 'SC 13D', 'SC 13D/A', 'SC 13G/A', 'SC 13E3', 'SC 13E3/A', 'SC TO-T', 'SC TO-T/A', 'SC TO-C', '3', '3/A', '4', '144', 'PX14A6G'] %}
+                            <option value="{{ option }}" {{ 'selected' if selected_filing_type == option else '' }}>{{ option }}</option>
+                        {% endfor %}
+                        <option value="" {{ 'selected' if selected_filing_type == '' else '' }}>All Filings</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit">Search</button>
+        </form>
+
+        {% if error_message %}
+        <div class="alert alert-danger" role="alert">
+            {{ error_message }}
+        </div>
+        {% endif %}
+
+        <h2>Result:</h2>
+
+        <div class="container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ticker</th>
+                        <th>Filing 1</th>
+                        <th>Filing 2</th>
+                        <th>Filing 3</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for filing_set in filings %}
+                    <tr>
+                        <td>{{ filing_set.ticker }}</td>
+                        <td>
+                            {% if filing_set.filings|length >= 1 %}
+                                <strong>Title:</strong> {{ filing_set.filings[0].title }}<br>
+                                <strong>Link:</strong> <a href="{{ filing_set.filings[0].link }}" class="filing-link" target="_blank">View Filing</a><br>
+                                <strong>Date:</strong> {{ filing_set.filings[0].updated }}<br>
+                                <strong>Filing Type:</strong> {{ filing_set.filings[0].filing_type }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if filing_set.filings|length >= 2 %}
+                                <strong>Title:</strong> {{ filing_set.filings[1].title }}<br>
+                                <strong>Link:</strong> <a href="{{ filing_set.filings[1].link }}" class="filing-link" target="_blank">View Filing</a><br>
+                                <strong>Date:</strong> {{ filing_set.filings[1].updated }}<br>
+                                <strong>Filing Type:</strong> {{ filing_set.filings[1].filing_type }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if filing_set.filings|length >= 3 %}
+                                <strong>Title:</strong> {{ filing_set.filings[2].title }}<br>
+                                <strong>Link:</strong> <a href="{{ filing_set.filings[2].link }}" class="filing-link" target="_blank">View Filing</a><br>
+                                <strong>Date:</strong> {{ filing_set.filings[2].updated }}<br>
+                                <strong>Filing Type:</strong> {{ filing_set.filings[2].filing_type }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <td>
+                            <button id="watchlist-button" class="watchlist-button"
+                                data-ticker= "{{ filing_set.ticker }}"
+                                data-filing1-title="{{ filing_set.filings[0].title if filing_set.filings|length >= 1 or None}}"
+                                data-filing1-type="{{ filing_set.filings[0].filing_type if filing_set.filings|length >= 1 or None }}"
+                                data-filing1-date="{{ filing_set.filings[0].updated if filing_set.filings|length >= 1 or None }}"
+                                data-filing1-link="{{ filing_set.filings[0].link if filing_set.filings|length >= 1 or None }}"
+                                data-filing2-title="{{ filing_set.filings[1].title if filing_set.filings|length >= 2 or None }}"
+                                data-filing2-type="{{ filing_set.filings[1].filing_type if filing_set.filings|length >= 2 or None }}"
+                                data-filing2-date="{{ filing_set.filings[1].updated if filing_set.filings|length >= 2 or None }}"
+                                data-filing2-link="{{ filing_set.filings[1].link if filing_set.filings|length >= 2 or None }}"
+                                data-filing3-title="{{ filing_set.filings[2].title if filing_set.filings|length >= 3 or None }}"
+                                data-filing3-type="{{ filing_set.filings[2].filing_type if filing_set.filings|length >= 3 or None }}"
+                                data-filing3-date="{{ filing_set.filings[2].updated if filing_set.filings|length >= 3 or None }}"
+                                data-filing3-link="{{ filing_set.filings[2].link if filing_set.filings|length >= 3 or None }}">
+                                Add to Watchlist
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Watchlist Data:</h2>
+        <div id="removeSelectedButtonContainer" style="text-align: right; margin-top: -50px;">
+            <button id="removeSelectedButton">Remove from Watchlist</button>
+        </div>
+
+        <div class="container">
+            <table class="watchlist-table">
+                <thead>
+                    <tr>
+                        <th>Ticker</th>
+                        <th>Filing 1</th>
+                        <th>Filing 2</th>
+                        <th>Filing 3</th>
+                        <th>
+                            <div style="display: flex; align-items: center;">
+                                <span>Tracker</span>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- This will remain empty initially -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src=../static/script.js></script> <!-- External JavaScript -->
+</body>
+</html>
